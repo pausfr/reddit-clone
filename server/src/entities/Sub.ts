@@ -50,6 +50,6 @@ export default class Sub extends BaseEntity {
   get bannerUrl(): string {
     return this.bannerUrn
       ? `${process.env.APP_URL}/images/${this.bannerUrn}`
-      : undefined;
+      : "";
   }
 }
