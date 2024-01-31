@@ -1,7 +1,29 @@
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import InputGroup from "@/src/components/InputGroup";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useAuthDispatch } from "@/src/context/auth";
 
 const SubCreate = () => {
+  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState<any>({});
+
+  let router = useRouter();
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+
+    try {
+      const res = await axios.post("/subs", { name, title, description });
+
+      await router.push(`/r/${res.data.name}`);
+    } catch (error: any) {
+      console.log(error);
+      setErrors(error.response?.data);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center pt-16">
       <div className="w-10/12 p-4 mx-auto bg-white rounded md:w-96">
